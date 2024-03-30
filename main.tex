@@ -1,0 +1,305 @@
+\documentclass[a4paper,14pt]{extarticle}
+\usepackage{graphicx}
+
+\usepackage[left=25mm, right=25mm, top=25mm, bottom=25mm]{geometry}
+\linespread{1.25} 
+
+\usepackage[russian]{babel}
+\usepackage{bbold}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{hyperref}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}[section]
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{example}{Пример}[section]
+\newtheorem{lemma}{Лемма}[section]
+
+\def\ci{\perp\!\!\!\perp}
+\usepackage{xcolor}
+
+\usepackage{hyperref}
+\hypersetup{pdfstartview={XYZ null null 1.00}}
+
+\begin{document}
+
+\section{Задание №4}
+% Надо показать, что $\nabla_x (x^T A x) = 2Ax$, где
+% $A$ -- размера $n \times n$, $x$ -- размера $n \times 1$.
+
+% Для решения этой задачи нужны некоторые факты из теории матричного дифференцирования:
+% \begin{itemize}
+%     \item Если функция $f: \mathbb{R}^n \to \mathbb{R}$, то $df = (\nabla_x f)^T dx$. 
+%     Таким образом, градиент можно достать из вида дифференциала функции $f$.
+%     \item $d(XY)=X(dY) + (dX) Y $
+%     \item $(XY)^T = Y^T X^T$
+%     \item Если $X$ -- матрица размера $1\times 1$, то $X=X^T$.
+%     \item $d(X^T) = (dX)^T$
+%     \item Если $A$ - фиксирована, то $d(Ax) = Adx$
+% \end{itemize}
+
+% Пусть $f=x^T A x$. Тогда:
+% $$
+% df = d(x^T A x) = d(x^T A) x + x^T A dx = \text{[транспонируем матрицу 1 на 1]} = 
+% $$
+% $$
+% =(d(x^T A) x)^T + x^T A dx = x^T (d(x^T A))^T + x^T A dx = x^T d((x^T A)^T) + x^T A dx =
+% $$
+% $$
+% = x^T d(A^T x) + x^T A dx = \text{[A - симметричная, значит $A=A^T$]} = x^T d(Ax) + x^T A dx = 
+% $$
+% $$
+% = x^T Adx + x^T A dx = 2x^T A dx
+% $$
+
+% Таким образом, $\nabla_x f = (2x^T A)^T =2 A^T x = 2Ax$.
+
+В нашем случае $f(x)=x^T A x$, где $x=(x_1,\ldots, x_n)^T$, $A$ -- размера $n \times n$, 
+$a_{ij}=a_{ji}$.
+
+$$
+f(x)=x^T A x = \sum_{i=1}^n \sum_{j=1}^{n} a_{ij} x_i x_j = 
+\sum_{i=1}^n \sum_{\begin{smallmatrix}j=1 \\ j \neq i\end{smallmatrix}}^{n} a_{ij} x_i x_j +
+\sum_{i=1}^n a_{ii}x_i^2
+$$
+
+$$
+\frac{\partial f}{\partial x_i} = \frac{\partial f}{\partial x_i} \left(\sum_{i=1}^n \sum_{\begin{smallmatrix}j=1 \\ j \neq i\end{smallmatrix}}^{n} a_{ij} x_i x_j +
+\sum_{i=1}^n a_{ii}x_i^2 \right) =
+$$
+
+$$
+= \frac{\partial f}{\partial x_i} \left(
+    \sum_{\begin{smallmatrix}j=1 \\ j \neq i\end{smallmatrix}}^{n} a_{ij} x_i x_j 
+    + \sum_{\begin{smallmatrix}j=1 \\ j \neq i\end{smallmatrix}}^{n} a_{ji} x_j x_i +
+    \sum_{i=1}^n a_{ii}x_i^2 
+  \right) =
+$$
+
+$$
+= \sum_{\begin{smallmatrix}j=1 \\ j \neq i\end{smallmatrix}}^{n} a_{ij}x_j 
++ \sum_{\begin{smallmatrix}j=1 \\ j \neq i\end{smallmatrix}}^{n} a_{ji}x_j +
+\sum_{i=1}^n 2 a_{ii} x_i = 2 \sum_{j=1}^n a_{ij} x_j
+$$
+
+$\frac{\partial f}{\partial x_i} = 2 \sum_{j=1}^n a_{ij} x_j$ соответствует умножению $i$-й строки матрицы $2A$ на вектор $x$. Поэтому
+$grad(x^T A x) = 2Ax$.
+
+\section{Задание №5}
+Случайная величина $X$ имеет показательное распределение, если её функция распределения:
+$F_X(x)=1-e^{-\lambda x}$ при $x\geq 0$.
+
+Мы знаем, что $P(X<VaR_\gamma(X))=F(VaR_\gamma(X))=\gamma$.
+Найдем $VaR_\gamma(X)$ из уравнения $F_X(x)=\gamma$.
+
+$$
+1-e^{-\lambda x} = \gamma
+$$
+$$
+e^{-\lambda x} = 1-\gamma
+$$
+$$
+-\lambda x = \ln(1-\gamma)
+$$
+$$
+x = \dfrac{1}{\lambda} \ln \left(\dfrac{1}{1-\gamma}\right)
+$$
+
+Таким образом, $VaR_\gamma(X)=\dfrac{1}{\lambda} \ln \left(\dfrac{1}{1-\gamma}\right)$
+
+\section{Задание №6}
+Сформулируем задачу:
+
+$$
+\begin{cases}
+    \dfrac{1}{2} x^T \Sigma x \to \min \\
+    \sum_{i=1}^{n} x_i = 1
+\end{cases}
+$$
+
+Пусть $\mathbb{1}=(1,\ldots,1)^T$. Тогда исходная задача перепишется в виде:
+$$
+\begin{cases}
+    \dfrac{1}{2} x^T \Sigma x \to \min \\
+    \mathbb{1}^T x - 1 = 0
+\end{cases}
+$$
+Запишем Лагранжан:
+
+$$
+L(x,\lambda) = \dfrac{1}{2} x^T \Sigma x + \lambda (\mathbb{1}^T x - 1)
+$$
+
+Используя задачу 4 имеем: $\nabla_x L = \Sigma x + \lambda \mathbb{1}$, $\dfrac{\partial L}{\partial \lambda} = \mathbb{1}^T x - 1$.
+Таким образом, система линейных уравнений примет вид:
+
+$$
+\begin{cases}
+    \Sigma x + \lambda \mathbb{1} = 0 \\
+    \mathbb{1}^T x - 1 = 0
+\end{cases}
+$$
+
+\section{Задание №7}
+Выразим $x$ из первого уравнения: $x=-\lambda\Sigma^{-1}\mathbb{1}$. Подставим $x$ в второе уравнение:
+$$
+-\lambda\mathbb{1}^T \Sigma^{-1}\mathbb{1} - 1 = 0
+$$
+$$
+\lambda = \dfrac{-1}{\mathbb{1}^T \Sigma^{-1}\mathbb{1}}
+$$
+Тогда:
+$$
+x= \dfrac{1}{\mathbb{1}^T \Sigma^{-1}\mathbb{1}} \Sigma^{-1}\mathbb{1}
+$$
+\section{Задание №8}
+1. Надо показать, что:
+$$
+\sum_{i=1}^N \sum_{j=1}^{N} \sigma_{ij} x_i x_j \leq \max_{i} \sigma_{ii}, \; x_i \geq 0
+$$
+Используем неравенство Коши-Буняковского:
+$$
+\sigma_{ij} \leq \sqrt{\sigma_{ii} \sigma_{jj}}
+$$
+Тогда:
+$$
+\sum_{i=1}^N \sum_{j=1}^{N} \sigma_{ij} x_i x_j \leq 
+\sum_{i=1}^N \sum_{j=1}^{N} x_i x_j \sqrt{\sigma_{ii} \sigma_{jj}}
+\leq \sum_{i=1}^N \sum_{j=1}^{N} x_i x_j \sqrt{\max_{k} \sigma_{kk} \max_{k} \sigma_{kk}} \leq
+$$
+
+$$
+\leq \max_{k} \sigma_{kk} \sum_{i=1}^N \sum_{j=1}^{N} x_i x_j = \max_{k} \sigma_{kk} \sum_{i=1}^N \left( x_i \sum_{j=1}^{N}  x_j \right) =
+$$
+
+$$
+= \max_{k} \sigma_{kk} \sum_{i=1}^N x_i = \max_{k} \sigma_{kk} = \max_{i} \sigma_{ii}
+$$
+
+2. Поскольку матрица $\Sigma$ положительно определена, то:
+$$
+\sum_{i=1}^N \sum_{i=1}^{N} \sigma_{ij} x_i x_j > 0
+$$
+
+\section{Задание №11}
+Однофакторная модель: $R_i = \alpha_i + \beta_i R_M + \varepsilon_i$
+
+A. $Cov(R_M, \varepsilon_i)=0$, $Cov(\varepsilon_i, \varepsilon_j)=0$, $E(\varepsilon_i)=0$.
+
+B. $E(R_i)=E(\alpha_i + \beta_i R_M + \varepsilon_i) = E(R_i) + \beta_i E(R_M)$.
+
+$$E(R_1)= 0.1 + 1 \cdot 0.5 = 0.6$$
+$$E(R_2) = 0.3 + 2 \cdot 0.5 = 1.3$$
+
+Будем использовать свойство: $$Cov(\alpha X + \beta Y, Z) = Cov(\alpha X, Z) + Cov(\beta Y, Z)$$
+Тогда:
+$$
+\sigma^2(R_i) = D(R_i) = Cov(R_i, R_i) = Cov(\alpha_i + \beta_i R_M + \varepsilon_i, \alpha_i + \beta_i R_M + \varepsilon_i) =
+$$
+$$
+=Cov(\alpha_i , \alpha_i + \beta_i R_M + \varepsilon_i) +
+Cov(\beta_i R_M + \varepsilon_i , \alpha_i + \beta_i R_M + \varepsilon_i) =
+$$
+$$
+=Cov(\beta_i R_M + \varepsilon_i , \alpha_i + \beta_i R_M + \varepsilon_i)=
+$$
+$$
+=Cov(\beta_i R_M + \varepsilon_i , \alpha_i) +
+Cov(\beta_i R_M + \varepsilon_i , \beta_i R_M + \varepsilon_i) = 
+$$
+$$
+= Cov(\beta_i R_M + \varepsilon_i , \beta_i R_M + \varepsilon_i) =
+$$
+$$
+= Cov(\beta_i R_M, \beta_i R_M) + Cov(\beta_i R_M, \varepsilon_i) + Cov(\varepsilon_i, \beta_i R_M) + Cov(\varepsilon_i, \varepsilon_i) =
+$$
+$$
+= Cov(\beta_i R_M, \beta_i R_M) + Cov(\varepsilon_i, \varepsilon_i) = \beta_i^2 \sigma^2(R_M) + \sigma^2(\varepsilon_i)
+$$
+Итого: $\sigma^2(R_i) = \beta_i^2 \sigma^2(R_M) + \sigma^2(\varepsilon_i)$
+
+$$\sigma^2(R_1) = 1^2 \cdot 0.2^2 + 0.1^2 = 0.05$$
+$$\sigma^2(R_2) = 2^2 \cdot 0.2^2 + 0.2^2 = 0.2$$
+
+Теперь надо сравнить активы по характеристикам:
+$$E(R_1)= 0.6, \sigma^2(R_1)  = 0.05$$
+$$E(R_2) =  1.3, \sigma^2(R_2)  = 0.2$$
+
+C. Функция полезности $u=E-\gamma\cdot \sigma^2, \gamma=4$. Она штрафует за большие значения $\sigma^2$.
+
+$$
+u(R_1) = 0.6 - 4 \cdot 0.05 = 0.4
+$$
+$$
+u(R_2) = 1.3 - 4 \cdot 0.2 = 0.5
+$$
+
+\section{Задание №12}
+Нам потребуется факт: $VaR_\beta(X+c)=VaR_\beta(X)+c$. 
+Он очевидный поскольку, если мы сдвинем распределение на $+C$, то и все его квантили (а $VaR_\beta(X)$
+это квантиль уровня $\beta$) сдвинутся на $+C$.
+
+По определению: $CVaR_\beta(X) = E(X \mid X \geq VaR_\beta(X))$
+$$
+CVaR_\beta(X+c) = E(X+c \mid X+c \geq VaR_\beta(X+c)) = E(X+c \mid X+c \geq VaR_\beta(X)+c) =
+$$
+$$
+= E(X+c \mid X \geq VaR_\beta(X)) = E(X \mid X \geq VaR_\beta(X)) + E(c \mid X \geq VaR_\beta(X))=
+$$
+$$
+E(X \mid X \geq VaR_\beta(X)) + c = CVaR_\beta(X) + c
+$$
+
+\section{Задание №13}
+Потребуется формула:
+$$
+CVaR_\beta(X) = \dfrac{1}{1-\beta}\int_{x \geq VaR_\beta(X)} x f_X(x) dx
+$$
+
+По задаче 5 мы знаем, что:
+$$
+VaR_\beta(X)=\dfrac{1}{\lambda} \ln \left(\dfrac{1}{1-\beta}\right)=a
+$$
+При $x\geq 0$: $f_X(x)=\lambda e^{-\lambda x}$.
+Вычислим интеграл:
+$$
+\int_{a}^{+\infty} x f_X(x) dx = \int_{a}^{+\infty} x \lambda e^{-\lambda x} dx
+= - \int_{a}^{+\infty} x d(e^{-\lambda x}) = 
+$$
+$$
+= - \left(x e^{-\lambda x} \vert_{a}^{+\infty} - \int_{a}^{+\infty} e^{-\lambda x} dx \right) =
+- \left( (0-a e^{-\lambda a}) + \dfrac{1}{\lambda} \int_{a}^{+\infty} e^{-\lambda x} d(-\lambda x) \right) =
+$$
+$$
+= a e^{-\lambda a} - \dfrac{1}{\lambda} \int_{-\lambda a}^{+\infty} e^{t} dt
+= a e^{-\lambda a} - \dfrac{1}{\lambda} e^t \vert_{-\lambda a}^{+\infty} = 
+$$
+$$
+=a e^{-\lambda a} - \dfrac{1}{\lambda} (0 - e^{-\lambda a}) =
+a e^{-\lambda a} + \dfrac{1}{\lambda} e^{-\lambda a} = \left( a + \dfrac{1}{\lambda} \right) e^{-\lambda a}
+$$
+Таким образом:
+$$
+CVaR_\beta(X) =  \dfrac{1}{1-\beta} \left( a + \dfrac{1}{\lambda} \right) e^{-\lambda a}
+$$
+Подставим: 
+$$
+a = \dfrac{1}{\lambda} \ln \left(\dfrac{1}{1-\beta}\right)
+$$
+Получим:
+$$
+CVaR_\beta(X) =  \dfrac{1}{1-\beta} \left( \dfrac{1}{\lambda} \ln \left(\dfrac{1}{1-\beta}\right) 
++ \dfrac{1}{\lambda} \right) e^{-\lambda \dfrac{1}{\lambda} \ln \left(\dfrac{1}{1-\beta}\right)} =  
+$$
+$$
+=\dfrac{1}{1-\beta} \left( \dfrac{1}{\lambda} \ln \left(\dfrac{1}{1-\beta}\right) 
++ \dfrac{1}{\lambda} \right) e^{\ln (1-\beta)} = \dfrac{1}{\lambda} \ln \left(\dfrac{1}{1-\beta}\right) 
++ \dfrac{1}{\lambda} = 
+$$
+$$
+= \dfrac{1}{\lambda} (1-\ln(1-\beta))
+$$
+
+\end{document}
